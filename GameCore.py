@@ -1,3 +1,5 @@
+import random
+
 import pygame
 import math
 
@@ -11,7 +13,6 @@ class GameCore:
         self.screen_width = conf.SCREEN_SIZE[0]
         self.screen_height = conf.SCREEN_SIZE[1]
         self.game_is_running = True
-        self.last_event = None
         self.background_rect = pygame.Rect(0, 0, self.screen_width, self.screen_height)
 
         self.noodle = pygame.image.load('./assets/images/noodle.png')
@@ -21,6 +22,14 @@ class GameCore:
 
         self.noodle_min_position_x = 20
         self.noodle_max_position_x = self.screen_width - self.noodle_rect[2] - 20
+
+        self.platforms_coordinates = [(10, 10), (100, 50), (200, 100), (300, 150), (500, 250)]
+
+    def draw_platforms(self):
+        for i in range(len(self.platforms_coordinates)):
+            x = self.platforms_coordinates[i][0]
+            y = self.platforms_coordinates[i][1]
+            pygame.draw.rect(self.screen, (200, 100, 50), (x, y, 100, 10))
 
     def move_noodle(self):
         keys_pressed = pygame.key.get_pressed()
@@ -60,6 +69,7 @@ class GameCore:
                     if event.key == pygame.K_ESCAPE:
                         self.game_is_running = False
 
+            self.draw_platforms()
             self.move_noodle()
             self.border_patrol()
 
